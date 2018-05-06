@@ -1,0 +1,10 @@
+@()(implicit assetsFinder: AssetsFinder)
+
+
+@layout("Welcome to the booking platform.", assetsFinder) {
+    <ul>
+
+        <li>To start booking, click <a class="btn" href="@routes.BookingController.chooseAppointmentTypeForm">Book and appointment</a>.</li>
+        <li>To see your current appointments, click <a class="btn" href="@routes.BookingController.listAppointments" class="nav-link">My appointments</a>.</li>
+    </ul>
+}

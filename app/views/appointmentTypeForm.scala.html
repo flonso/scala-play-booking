@@ -1,0 +1,23 @@
+@(form: Form[AppointmentType])(implicit assetsFinder: AssetsFinder, messageProvider: MessagesProvider, request: RequestHeader)
+
+@layout("Book an appointment", assetsFinder) {
+    @helper.form(action = helper.CSRF(routes.BookingController.processAppointmentTypeForm),
+                'class -> "") {
+
+    <fieldset class="form-group">
+        <legend class="col-form-label">What kind of appointment are you booking for ?</legend>
+
+        <div class="form-check">
+            <input id="first" class="form-check-input" name="@AppointmentType.LABEL_INPUT_NAME" type="radio" value="@AppointmentType.FIRST_APPOINTMENT" />
+            <label for="first" class="form-check-label">This is my first appointment</label>
+        </div>
+
+        <div class="form-check">
+            <input id="followup" class="form-check-input" name="@AppointmentType.LABEL_INPUT_NAME" type="radio" value="@AppointmentType.FOLLOWUP_APPOINTMENT" />
+            <label for="followup" class="form-check-label">This is a followup appointment</label>
+        </div>
+    </fieldset>
+
+    <input class="btn btn-primary" type="submit" value="Continue to time slot selection" />
+    }
+}

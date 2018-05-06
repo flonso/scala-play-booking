@@ -1,0 +1,23 @@
+@(title: String, assetsFinder: AssetsFinder)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" href="@assetsFinder.path("css/bootstrap.min.css")">
+        <link rel="stylesheet" href="@assetsFinder.path("css/fontawesome.css")">
+        <link rel="stylesheet" media="screen" href="@assetsFinder.path("css/style.css")">
+        <link rel="shortcut icon" type="image/png" href="@assetsFinder.path("images/favicon.png")">
+    </head>
+    <body class="container">
+        @menu()
+
+        <h1>@title</h1>
+        @content
+
+
+        <script src="@assetsFinder.path("js/jquery.slim.min.js")" type="text/javascript"></script>
+        <script src="@assetsFinder.path("js/popper.min.js")" type="text/javascript"></script>
+        <script src="@assetsFinder.path("js/bootstrap.min.js")" type="text/javascript"></script>
+    </body>
+</html>

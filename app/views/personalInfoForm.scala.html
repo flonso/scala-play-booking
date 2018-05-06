@@ -1,0 +1,33 @@
+@import forms.BookingForms
+
+@(tpe: String, timeSlot: String, form: Form[Appointment])(implicit assetsFinder: AssetsFinder, messageProvider: MessagesProvider, request: RequestHeader)
+
+@layout("Book an appointment", assetsFinder) {
+
+
+    @helper.form(action = helper.CSRF(routes.BookingController.performBooking(tpe, timeSlot)),
+    'class -> "pure-form pure-form-stacked") {
+
+
+    <fieldset>
+        <legend>Fill in your personal information</legend>
+
+
+        @helper.inputText(form("firstName"), '_label -> "First name")
+        @helper.inputText(form("lastName"), '_label -> "Last name")
+        @helper.inputText(form("birthDate"), '_label -> s"Birthdate (format: ${utils.JodaDateUtils.BIRTHDATE_PATTERN})")
+        @helper.inputText(form("phoneNumber"), '_label -> "Phone number")
+        @helper.inputText(form("email"), '_label -> "Email address")
+
+        @helper.textarea(field = form("description"), args = 'rows -> 3, 'cols -> 50, '_label -> "Description (optional)")
+
+
+        <input type="hidden" value="@timeSlot" name="timeSlot" />
+        <input type="hidden" value="@tpe" name="@AppointmentType.LABEL_INPUT_NAME" />
+
+    </fieldset>
+
+    <a href="@routes.BookingController.chooseTimeSlotForm(tpe, None))" class="btn">Back to time slot choice</a>
+    <input type="submit" class="btn btn-primary" value="Book my appointment" />
+    }
+}

@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page of the website
+GET     /                                          controllers.HomeController.index
+
+# Appointment type form
+GET     /booking                                   controllers.BookingController.chooseAppointmentTypeForm
+
+POST    /booking                                   controllers.BookingController.processAppointmentTypeForm
+
+# Time slot selection form
+GET     /booking/timeslot/:tpe                     controllers.BookingController.chooseTimeSlotForm(tpe: String, date: Option[String])
+
+POST    /booking/timeslot/:tpe                     controllers.BookingController.processTimeSlotForm(tpe: String, date: Option[String])
+
+# Personal information form
+GET     /booking/information/:tpe/:timeSlot        controllers.BookingController.personalInfoForm(tpe: String, timeSlot: String)
+
+POST    /booking/information/:tpe/:timeSlot        controllers.BookingController.performBooking(tpe: String, timeSlot: String)
+
+# Booking confirmation page
+GET     /booking/confirmation/:id                  controllers.BookingController.displayConfirmation(id: Long)
+
+# List of booked appointments
+GET     /appointments                              controllers.BookingController.listAppointments
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(file)

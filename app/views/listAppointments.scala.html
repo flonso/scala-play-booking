@@ -1,0 +1,44 @@
+@import forms.BookingForms
+
+@(appointments: Seq[Appointment with sorm.Persisted])(implicit assetsFinder: AssetsFinder)
+
+@layout("Booked appointments", assetsFinder) {
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date and time</th>
+        <th scope="col">Type</th>
+        <th scope="col">Name</th>
+        <th scope="col">BirthDate</th>
+        <th scope="col">Phone number</th>
+        <th scope="col">Email</th>
+        <th scope="col">Remarks</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(a <- appointments) {
+        <tr>
+            <td>@a.id</td>
+            <td>@a.timeSlot.start.toString("E dd-MM-yyyy HH:mm")</td>
+            <td>@AppointmentType.typeLabels(a.tpe)</td>
+            <td>@a.patient.firstName @a.patient.lastName</td>
+            <td>@a.patient.birthDate.toString(utils.JodaDateUtils.BIRTHDATE_PATTERN)</td>
+            <td>@a.patient.phoneNumber</td>
+            <td>@a.patient.email</td>
+            <td>@a.description.getOrElse("-")</td>
+        </tr>
+    }
+
+    @if(appointments.isEmpty) {
+        <tr>
+            <td colspan="8">
+                <h5>There are no appointments yet, head out to "Book an appointment" in order to book your first appointment !</h5>
+            </td>
+        </tr>
+    }
+
+    </tbody>
+</table>
+}

@@ -1,0 +1,54 @@
+@import scala.collection.immutable.ListMap
+@import org.joda.time.DateTime
+
+@(timeSlots: ListMap[DateTime, Seq[TimeSlot]], tpe: String, date: DateTime, form: Form[TimeSlot])(implicit assetsFinder: AssetsFinder, messageProvider: MessagesProvider, request: RequestHeader)
+
+@layout("Book an appointment", assetsFinder) {
+
+
+    @helper.form(action = helper.CSRF(routes.BookingController.processTimeSlotForm(tpe, Some(date.toString(utils.JodaDateUtils.URL_DATE_PATTERN)))),
+                'class -> "pure-form pure-form-stacked") {
+
+
+            <fieldset>
+                <legend>Choose a timeslot</legend>
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <a class="btn" href="@routes.BookingController.chooseTimeSlotForm(tpe, Some(date.minusWeeks(1).toString(utils.JodaDateUtils.URL_DATE_PATTERN)))">Previous</a>
+                    </div>
+
+                    <div class="col-md-4 text-center">
+                        <a class="btn" href="@routes.BookingController.chooseTimeSlotForm(tpe, Some(DateTime.now.toString(utils.JodaDateUtils.URL_DATE_PATTERN)))">Today</a>
+                    </div>
+
+                    <div class="col-md-4 text-right">
+                        <a class="btn" href="@routes.BookingController.chooseTimeSlotForm(tpe, Some(date.plusWeeks(1).toString(utils.JodaDateUtils.URL_DATE_PATTERN)))">Next</a>
+                    </div>
+                </div>
+                <div class="form-row">
+                    @for(t <- timeSlots) {
+                    <div class="col">
+                        <h6>@t._1.toString("E dd-MM-YY")</h6>
+                        @for(s <- t._2) {
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input id="for_@s" class="form-check-input" type="radio" name="start" value="@s.start" />
+                                <label for="for_@s" class="form-check-label">@s.start.toString("HH:mm")</label>
+                            </div>
+                        </div>
+
+                        }
+                    </div>
+                    }
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" value="@tpe" name="@AppointmentType.LABEL_INPUT_NAME" />
+
+            <a href="@routes.BookingController.chooseAppointmentTypeForm" class="btn" role="button">Back to appointment type selection</a>
+            <input class="btn btn-primary" type="submit" value="Continue" />
+    }
+
+
+}
